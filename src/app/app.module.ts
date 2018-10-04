@@ -1,9 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/**
+ * Angular translate module for multilingual
+ */
+import { TranslateModule, TranslateLoader, TranslateCompiler } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateMessageFormatCompiler } from 'ngx-translate-messageformat-compiler';
+
+// AoT requires an exported function for factories
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -39,7 +51,7 @@ interface StoreType {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     AboutComponent,
@@ -59,13 +71,25 @@ interface StoreType {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      compiler: {
+        provide: TranslateCompiler,
+        // Use this compiler to parses messages using the ICU syntax.
+        useClass: TranslateMessageFormatCompiler
+      }
+    }),
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.
      * When the module is not imported it will get tree shaked.
      * This is a simple example, a big app should probably implement some logic
      */
-    ...environment.showDevModule ? [ DevModuleModule ] : [],
+    ...environment.showDevModule ? [DevModuleModule] : [],
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.
@@ -75,4 +99,4 @@ interface StoreType {
     APP_PROVIDERS
   ]
 })
-export class AppModule {}
+export class AppModule { }

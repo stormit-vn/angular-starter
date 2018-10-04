@@ -1,3 +1,30 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib/"
-}
+  "workbench.iconTheme": "vscode-icons",
+  "window.zoomLevel": 1,
+  "vsicons.projectDetection.disableDetect": true,
+  "git.enableSmartCommit": true,
+  "extensions.ignoreRecommendations": true,
+  "vsicons.projectDetection.autoReload": true,
+  "editor.minimap.enabled": false,
+  "workbench.editor.showTabs": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*.retry": true,
+    "**/node_modules": true,
+    ".webpack": true,
+    "coverage": true,
+    "dump.rdb": true,
+    "**/webpack-cache": true,
+    "**/dist": true,
+    "**/package-lock.json": true,
+    ".gitattributes": true,
+    ".gitignore": true,
+    "_warmup": true,
+    "source-map-install.js": true,
+    "helpers.js": true,
+    ".serverless": true
+  }
