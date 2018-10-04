@@ -17,6 +17,15 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import { awsExports } from './aws-exports';
+
+// in this way you are only importing Auth and configuring it.
+Amplify.configure(awsExports);
+
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -38,7 +47,8 @@ import '../styles/headings.css';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  AmplifyService
 ];
 
 interface StoreType {
@@ -83,6 +93,7 @@ interface StoreType {
         useClass: TranslateMessageFormatCompiler
       }
     }),
+    AmplifyAngularModule,
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.
